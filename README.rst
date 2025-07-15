@@ -120,25 +120,25 @@ Arc File Extractor uses system tools for compression and extraction. Install the
 
 .. code-block:: bash
 
-    sudo apt install unzip tar gzip bzip2 xz-utils p7zip-full unrar
+    sudo apt install unzip tar gzip bzip2 xz-utils p7zip-full unrar zip
 
 **Fedora/RHEL:**
 
 .. code-block:: bash
 
-    sudo dnf install unzip tar gzip bzip2 xz p7zip unrar
+    sudo dnf install unzip tar gzip bzip2 xz p7zip unrar zip
 
 **Arch Linux:**
 
 .. code-block:: bash
 
-    sudo pacman -S unzip tar gzip bzip2 xz p7zip unrar
+    sudo pacman -S unzip tar gzip bzip2 xz p7zip unrar zip
 
 **macOS:**
 
 .. code-block:: bash
 
-    brew install p7zip unrar
+    brew install p7zip unrar zip
 
 Examples
 --------
