@@ -103,7 +103,7 @@ install_fedora_deps() {
 install_arch_deps() {
     print_status "Installing dependencies for Arch Linux..."
     sudo pacman -Sy
-    sudo pacman -S --needed --noconfirm unrar unzip tar gzip bzip2 xz p7zip zip python python-pip
+    sudo pacman -S --needed --noconfirm unrar unzip tar gzip bzip2 xz p7zip zip python python-pip python-pipx
 }
 
 # Function to install dependencies on macOS
@@ -128,6 +128,8 @@ install_arc_extractor() {
         PIP_CMD="pip3"
     elif command_exists pip; then
         PIP_CMD="pip"
+    if command_exists pipx; then # pipx is nedded for archlinux
+        PIP_CMD="pipx"
     else
         print_error "pip not found. Please install pip and try again."
         exit 1
