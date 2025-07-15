@@ -28,15 +28,49 @@ Features
 Installation
 ------------
 
+**Quick Install (Recommended)**
+
+Install Arc File Extractor and all dependencies with a single command::
+
+    curl -fsSL https://raw.githubusercontent.com/nukhes/arc_file_extractor/master/install.sh | sh
+
+This script will:
+
+* Detect your operating system (Ubuntu/Debian, Fedora/RHEL, Arch Linux, or macOS)
+* Install all required system dependencies
+* Install Arc File Extractor via pip
+* Verify the installation
+
+**Manual Installation**
+
 Install Arc File Extractor using pip::
 
     pip install arc-file-extractor
 
 Or install from source::
 
-    git clone https://github.com/alves/arc_file_extractor.git
+    git clone https://github.com/nukhes/arc_file_extractor.git
     cd arc_file_extractor
     pip install .
+
+**Installation Script Options**
+
+The installation script supports several options::
+
+    # Install only system dependencies
+    curl -fsSL https://raw.githubusercontent.com/nukhes/arc_file_extractor/main/install.sh | sh -s -- --deps-only
+
+    # Install only Arc File Extractor (skip dependencies)
+    curl -fsSL https://raw.githubusercontent.com/nukhes/arc_file_extractor/main/install.sh | sh -s -- --arc-only
+
+    # Verify installation
+    curl -fsSL https://raw.githubusercontent.com/nukhes/arc_file_extractor/main/install.sh | sh -s -- --verify
+
+    # Force reinstall
+    curl -fsSL https://raw.githubusercontent.com/nukhes/arc_file_extractor/main/install.sh | sh -s -- --force
+
+    # Show help
+    curl -fsSL https://raw.githubusercontent.com/nukhes/arc_file_extractor/main/install.sh | sh -s -- --help
 
 Usage
 -----
@@ -114,15 +148,28 @@ Supported Formats
 Dependencies
 ~~~~~~~~~~~~
 
-Arc File Extractor uses system tools for compression and extraction. Install the required tools:
+Arc File Extractor uses system tools for compression and extraction. 
+
+**Automatic Installation**
+
+The installation script automatically handles dependencies for supported systems. If you used the quick install method, dependencies are already installed.
+
+.. code-block:: bash
+
+    curl -fsSL https://raw.githubusercontent.com/nukhes/arc_file_extractor/main/install.sh | sh -s -- --force
+
+**Manual Installation**
+
+If you need to install dependencies manually, use the appropriate commands for your system:
 
 **Ubuntu/Debian:**
 
 .. code-block:: bash
 
+    sudo apt update
     sudo apt install unzip tar gzip bzip2 xz-utils p7zip-full unrar zip
 
-**Fedora/RHEL:**
+**Fedora/RHEL/CentOS:**
 
 .. code-block:: bash
 
@@ -140,8 +187,27 @@ Arc File Extractor uses system tools for compression and extraction. Install the
 
     brew install p7zip unrar zip
 
+**Verify Dependencies**
+
+You can check if all required tools are installed::
+
+    arc check
+
 Examples
 --------
+
+**Installation Examples:**
+
+.. code-block:: bash
+
+    # Quick install with dependencies
+    curl -fsSL https://raw.githubusercontent.com/nukhes/arc_file_extractor/main/install.sh | sh
+    
+    # Install only dependencies
+    curl -fsSL https://raw.githubusercontent.com/nukhes/arc_file_extractor/main/install.sh | sh -s -- --deps-only
+    
+    # Verify installation
+    curl -fsSL https://raw.githubusercontent.com/nukhes/arc_file_extractor/main/install.sh | sh -s -- --verify
 
 **Extract various archive types:**
 
@@ -187,7 +253,7 @@ Development
 
 To set up for development::
 
-    git clone https://github.com/alves/arc_file_extractor.git
+    git clone https://github.com/nukhes/arc_file_extractor.git
     cd arc_file_extractor
     pip install -e .[dev]
 

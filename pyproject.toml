@@ -36,7 +36,7 @@ dependencies = [
 ]
 
 requires-python = ">=3.8"
-keywords = ["archive", "compression", "extraction", "cli", "zip", "tar", "gzip"]
+keywords = ["archive", "compression", "extraction", "cli", "zip", "tar", "gzip", "installer", "automation"]
 
 dynamic = ["version"]
 
