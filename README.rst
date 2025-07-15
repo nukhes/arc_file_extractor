@@ -15,11 +15,6 @@ Arc File Extractor
 
 A unified CLI for file extraction and compression on UNIX systems.
 
-
-* Free software: GNU General Public License v3
-* Documentation: https://arc-file-extractor.readthedocs.io.
-
-
 Features
 --------
 
@@ -186,16 +181,6 @@ Examples
     
     # List all supported formats
     arc list
-
-Error Handling
---------------
-
-Arc File Extractor provides clear error messages for common issues:
-
-- **Missing files**: Clear indication when source files don't exist
-- **Unsupported formats**: Lists supported formats when an unknown format is used
-- **Missing dependencies**: Shows which tools need to be installed
-- **Permission errors**: Indicates when file permissions prevent operations
 
 Development
 -----------
