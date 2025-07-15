@@ -4,6 +4,8 @@ import subprocess
 from pathlib import Path
 from typing import Optional
 
+from . import utils
+
 
 class ArcFileExtractor:
     """Main class for file extraction and compression operations."""
@@ -38,11 +40,12 @@ class ArcFileExtractor:
             ".rar": ["rar", "a"]
         }
     
-    def extract(self, file_path: str) -> int:
+    def extract(self, file_path: str, force: bool = False) -> int:
         """Extract a file to a directory with the same name.
         
         Args:
             file_path: Path to the file to extract
+            force: If True, skip conflict checking and overwrite files
             
         Returns:
             Exit code (0 for success, 1 for failure)
@@ -54,16 +57,29 @@ class ArcFileExtractor:
         # Get file extension(s)
         file_path_obj = Path(file_path)
         
+        # Determine output directory
+        output_dir = file_path_obj.stem
+        # Remove .tar from compound extensions
+        if file_path.lower().endswith(('.tar.gz', '.tar.bz2', '.tar.xz')):
+            output_dir = output_dir.replace('.tar', '')
+        
+        # Check for conflicts unless force is enabled
+        if not force:
+            conflicts = utils.check_extraction_conflicts(file_path, ".")
+            if conflicts:
+                if not utils.prompt_overwrite_confirmation(conflicts):
+                    print("[yellow]Extraction cancelled by user.[/yellow]")
+                    return 1
+        
         # Check for compound extensions first
         for ext in [".tar.gz", ".tar.bz2", ".tar.xz"]:
             if file_path.lower().endswith(ext):
                 command = self.extract_commands[ext] + [file_path]
-                return self._run_command(command, file_path_obj.stem.replace('.tar', ''))
+                return self._run_command(command, output_dir)
         
         # Check for simple extensions
         ext = file_path_obj.suffix.lower()
         if ext in self.extract_commands:
-            output_dir = file_path_obj.stem
             command = self.extract_commands[ext] + [file_path]
             return self._run_command(command, output_dir)
         
@@ -117,11 +133,12 @@ class ArcFileExtractor:
         """
         try:
             if output_dir:
-                # Create output directory for extraction
+                # Create output directory if it doesn't exist
                 Path(output_dir).mkdir(exist_ok=True)
                 # Change to output directory for extraction
                 result = subprocess.run(command, cwd=output_dir, check=True)
             else:
+                # Run command in current directory
                 result = subprocess.run(command, check=True)
             
             return result.returncode

@@ -22,7 +22,8 @@ console = Console()
 @app.command("x", help="Extract a file to a directory with the same name")
 def extract(
     file: str = typer.Argument(..., help="Path to the file to extract"),
-    verbose: bool = typer.Option(False, "--verbose", "-v", help="Enable verbose output")
+    verbose: bool = typer.Option(False, "--verbose", "-v", help="Enable verbose output"),
+    force: bool = typer.Option(False, "--force", "-f", help="Force extraction, overwrite existing files without asking")
 ):
     """Extract a file to a directory with the same name."""
     if not utils.validate_file_path(file):
@@ -34,7 +35,7 @@ def extract(
         console.print(f"[blue]Extracting file: {file} ({file_size})[/blue]")
     
     extractor = ArcFileExtractor()
-    result = extractor.extract(file)
+    result = extractor.extract(file, force=force)
     
     if result == 0:
         output_dir = Path(file).stem
@@ -104,21 +105,17 @@ def check_dependencies():
     if not missing:
         console.print("[green]✓ All required dependencies are installed[/green]")
     else:
-        console.print("[yellow]Missing dependencies:[/yellow]")
+        console.print("[red][!] Missing dependencies:[/red]")
         for tool in missing:
-            console.print(f"  [red]✗ {tool}[/red]")
-        
-        console.print("\n[yellow]Install missing tools using your package manager:[/yellow]")
-        console.print("  [dim]Ubuntu/Debian: sudo apt install unzip tar gzip bzip2 xz-utils p7zip-full unrar[/dim]")
-        console.print("  [dim]Fedora/RHEL: sudo dnf install unzip tar gzip bzip2 xz p7zip unrar[/dim]")
-        console.print("  [dim]Arch: sudo pacman -S unzip tar gzip bzip2 xz p7zip unrar[/dim]")
+            console.print(f"  • {tool}")
+        console.print("\n[yellow]Install missing tools using your package manager[/yellow]")
+        raise typer.Exit(1)
 
 
-@app.callback()
 def main():
-    """Arc File Extractor - A unified CLI for file extraction and compression."""
-    pass
+    """Main entry point for the CLI."""
+    app()
 
 
 if __name__ == "__main__":
-    app()
+    main()
